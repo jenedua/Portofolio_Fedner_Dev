@@ -9,12 +9,62 @@ class Page{
     private static function getFooter(){
         return View::render('pages/footer');
     }
-    public static function getPage($title, $content){
+    /**
+     * Método responsavel por renderizar o layout de paginação
+     * @param Request $request
+     * @param Pagination $obPagination
+     * @return string
+     */
+    public static function getPagination($request,$obPagination){
+        //PAGINAS
+        $pages = $obPagination->getPages();
+        //VERIFICA A QUANTIDADE DE PAGINAS
+        if(count($pages)<=1) return '';
+            //links
+            $links = '';
+
+            //URL ATUAL (SEM GETS)
+            $url = $request->getRouter()->getCurrentUrl();
+
+
+            //GET
+            $queryParams = $request->getQueryParams();
+            
+            //RENDERIZA OS LINKS
+            foreach($pages as $page){
+                // ALTERAR A PAGINA
+                $queryParams['page'] = $page['page'];
+
+                //LINK
+                $link = $url.'?'.http_build_query($queryParams);
+
+                //VIEW
+                $links .= View::render('pages/pagination/link', [
+                    'page' =>  $page['page'],
+                    'link' => $link
+                    
+                ]);
+                
+               
+
+
+                // echo"<pre>";
+                //     print_r($link);
+                // echo"</pre>";exit;
+            }
+        // RENDERIZA O BOX DA PAGINATION
+        return View::render('pages/pagination/box', [
+            'links' => $links
+        ]);
+
+
+    }
+    public static function getPage($title,$content){
         return View::render('pages/page',[
             'title' => $title, 
             'header' => self::getHeader(),
             'content' => $content,
-            'footer' => self::getFooter(),
+            'footer' => self::getFooter()
         ]);
 
     }

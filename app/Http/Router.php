@@ -26,7 +26,7 @@ class Router{
      */
     private $request;
     public function __construct($url){
-        $this->request = new Request();
+        $this->request = new Request($this);
         $this->url = $url;
         $this->setPrefix();
     }
@@ -214,6 +214,15 @@ class Router{
             return new Response($e->getCode(),$e->getMessage());
         }
 
+    }
+    /**
+     * Método responsavel por a URL atual
+     * @return string
+     */
+
+    public function getCurrentUrl(){
+        return $this->url.$this->getUri();
+        
     }
  
 

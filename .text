@@ -1,2 +1,3 @@
 *composer require william-costa/dot-env
 *composer require william-costa/database-manager
+- &$  (é uma referencia de memoria significa que todo que eu alterar com essa variavel que tem esse nome a qui dentro do meu metodo eu consigo obter esse dado alterado aqui fora)
